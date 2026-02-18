@@ -1,24 +1,30 @@
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 food_db = SQLAlchemy()
 
-class Food(food_db.Model): # calories, total fat, protein, sugars, sodium, cholesterol, potassium, total carbohydrates
-    def __init__(self, name, brand=None, calories=0, total_fat=0, protein=0, sugars=0, sodium=0, cholesterol=0, potassium=0, total_carbohydrates=0):
-        super().__init__()
-        self.name = name
-        self.brand = brand
-        self.calories = calories
-        self.total_fat = total_fat
-        self.protein = protein
-        self.sugars = sugars
-        self.sodium = sodium
-        self.cholesterol = cholesterol
-        self.potassium = potassium
-        self.total_carbohydrates = total_carbohydrates
+class User(food_db.Model):
+    __tablename__ = "user"
 
+    id = food_db.Column(food_db.Integer, primary_key=True)
+    username = food_db.Column(food_db.String(80), unique=True, nullable=False)
+    email = food_db.Column(food_db.String(255), unique=True)
+    password_hash = food_db.Column(food_db.String(200), nullable=False)
+
+    foods = food_db.relationship("Food", backref="owner", lazy=True)
+
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+
+class Food(food_db.Model):
     __tablename__ = "food"
 
     id = food_db.Column(food_db.Integer, primary_key=True)
+    user_id = food_db.Column(food_db.Integer, food_db.ForeignKey("user.id"), nullable=False)
     name = food_db.Column(food_db.String(255), nullable=False)
     brand = food_db.Column(food_db.String(255))
     calories = food_db.Column(food_db.Float, nullable=False)
@@ -59,7 +65,7 @@ class Food(food_db.Model): # calories, total fat, protein, sugars, sodium, chole
 
         new_food = cls(**data)
 
-        existing_items = cls.query.filter_by(name=new_food.name, brand=new_food.brand).all()
+        existing_items = cls.query.filter_by(user_id=new_food.user_id, name=new_food.name, brand=new_food.brand).all()
 
         removed_count = 0
         for item in existing_items:

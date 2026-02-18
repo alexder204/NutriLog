@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block headscript %}
+<script src="{{ url_for('static', filename='auth.js') }}" defer></script>
+{% endblock %}
+
+{% block content %}
+<main>
+  <h2>Sign Up</h2>
+  <form id="signup-form">
+    <input type="text" id="signup-username" placeholder="Username" required>
+    <input type="email" id="signup-email" placeholder="Email" required>
+    <input type="password" id="signup-password" placeholder="Password" required>
+    <button type="submit">Create Account</button>
+  </form>
+</main>
+{% endblock %}

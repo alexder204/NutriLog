@@ -8,6 +8,9 @@
         {% block headscript %}{% endblock %}
     </head>
     <body>
+        <a href="{{ url_for('signup_page') }}">Sign Up</a>
+        <a href="{{ url_for('login_page') }}">Login</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
         {% block content %}{% endblock %}
     </body>
 </html>
