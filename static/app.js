@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadFoods() {
     const response = await fetch("/api/foods");
-    const foods = await response.json();
+    const foods = await response.json();   
 
     if (foods.error) {
       console.warn("Not logged in");
@@ -52,6 +52,13 @@ async function loadFoods() {
 
     const tableBody = document.querySelector("#food-table tbody");
     tableBody.innerHTML = "";
+
+    if (foods.length === 0) {
+        const row = document.createElement("tr");
+        row.innerHTML = `<td colspan="9" style="text-align:center;">No foods logged yet.</td>`;
+        tableBody.appendChild(row);
+        return;
+    }
 
     foods.forEach(food => {
         const row = document.createElement("tr");
@@ -65,10 +72,27 @@ async function loadFoods() {
             <td>${food.total_carbohydrates}</td>
             <td>${food.sugars}</td>
             <td>${food.sodium}</td>
+            <td><button class="delete-btn" data-id="${food.id}">X</button></td>
         `;
 
         tableBody.appendChild(row);
     });
 }
+
+document.addEventListener("click", async (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+        const id = e.target.dataset.id;
+
+        const res = await fetch(`/delete_food/${id}`, {
+            method: "DELETE"
+        });
+
+        if (res.ok) {
+            loadFoods();
+        } else {
+            alert("Failed to delete.");
+        }
+    }
+});
 
 loadFoods();

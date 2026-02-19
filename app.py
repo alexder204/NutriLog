@@ -34,6 +34,21 @@ def add_food():
 
     return jsonify({"message": "Food saved"})
 
+@app.route("/delete_food/<int:food_id>", methods=["DELETE"])
+def delete_food(food_id):
+    if "user_id" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+
+    food = Food.query.filter_by(id=food_id, user_id=session["user_id"]).first()
+
+    if not food:
+        return jsonify({"error": "Food not found"}), 404
+
+    food_db.session.delete(food)
+    food_db.session.commit()
+
+    return jsonify({"message": "Deleted"})
+
 @app.route("/")
 def index():
     logged_in = "user_id" in session
@@ -91,6 +106,7 @@ def get_foods():
 
     return jsonify([
         {
+            "id": f.id,
             "name": f.name,
             "brand": f.brand,
             "calories": f.calories,
