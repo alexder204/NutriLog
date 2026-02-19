@@ -42,8 +42,40 @@ hr {
     margin: 2rem 0;
 }
 
-body, html {
-  height: 100%;
-  color: #777;
-  line-height: 1.8;
+body {
+    background-color: #f7f3ee;
+    margin: 0;
+    font-family: Poppins, serif;
+    color: #777;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th {
+    text-align: left;
+    padding: 12px;
+    background-color: #f2eae2;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+tr:hover {
+    background-color: #faf6f2;
+}
+
+main {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
 }
