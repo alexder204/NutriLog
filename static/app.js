@@ -28,11 +28,47 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       const result = await res.json();
-      alert(result.message);
-      form.reset();
+      if (res.ok) {
+        form.reset();
+        loadFoods();
+      } else {
+        alert(result.error);
+      }
     } catch (err) {
       console.error("Error:", err);
       alert("Failed to add food.");
     }
   });
 });
+
+async function loadFoods() {
+    const response = await fetch("/api/foods");
+    const foods = await response.json();
+
+    if (foods.error) {
+      console.warn("Not logged in");
+      return;
+    }
+
+    const tableBody = document.querySelector("#food-table tbody");
+    tableBody.innerHTML = "";
+
+    foods.forEach(food => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${food.name}</td>
+            <td>${food.brand || "-"}</td>
+            <td>${food.calories}</td>
+            <td>${food.total_fat}</td>
+            <td>${food.protein}</td>
+            <td>${food.total_carbohydrates}</td>
+            <td>${food.sugars}</td>
+            <td>${food.sodium}</td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+loadFoods();

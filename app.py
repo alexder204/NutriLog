@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request, jsonify, session, redirect
 from models import food_db, User, Food
+import os
 
 app = Flask(__name__)
-app.config["SECRET_KEY"] = "super-secret-key"
+app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-key")
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///foods.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 food_db.init_app(app)
@@ -35,7 +36,8 @@ def add_food():
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    logged_in = "user_id" in session
+    return render_template("index.html", logged_in=logged_in)
 
 @app.route("/signup", methods=["POST"])
 def signup():
@@ -79,6 +81,29 @@ def signup_page():
 @app.route("/login", methods=["GET"])
 def login_page():
     return render_template("login.html")
+
+@app.route("/api/foods")
+def get_foods():
+    if "user_id" not in session:
+        return jsonify({"error": "Not logged in"}), 401
+
+    foods = Food.query.filter_by(user_id=session["user_id"]).all()
+
+    return jsonify([
+        {
+            "name": f.name,
+            "brand": f.brand,
+            "calories": f.calories,
+            "total_fat": f.total_fat,
+            "protein": f.protein,
+            "sugars": f.sugars,
+            "sodium": f.sodium,
+            "cholesterol": f.cholesterol,
+            "potassium": f.potassium,
+            "total_carbohydrates": f.total_carbohydrates
+        }
+        for f in foods
+    ])
 
 if __name__ == "__main__":
     with app.app_context():

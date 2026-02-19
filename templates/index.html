@@ -7,48 +7,71 @@
 {% block content %}
 <main>
     <h1>NutriLog</h1>
-    <form action="#" method="post">
-        <p>
-            <label for="food-name">Food Name</label>
-            <input type="text" id="food-name" name="food-name" minlength="3" maxlength="20" required>
-        </p>
-        <p>
-            <label for="brand">Brand</label>
-            <input type="text" id="brand" name="brand" minlength="3" maxlength="20" required>
-        </p>
-        <p>
-            <label for="calories">Calories</label>
-            <input type="number" id="calories" name="calories" min="0" max="3500" required>
-        </p>
-        <p>
-            <label for="total-fat">Total Fat</label>
-            <input type="number" id="total-fat" name="total-fat" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="protein">Protein</label>
-            <input type="number" id="protein" name="protein" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="sugars">Sugars</label>
-            <input type="number" id="sugars" name="sugars" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="sodium">Sodium</label>
-            <input type="number" id="sodium" name="sodium" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="cholesterol">Cholesterol</label>
-            <input type="number" id="cholesterol" name="cholesterol" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="potassium">Potassium</label>
-            <input type="number" id="potassium" name="potassium" min="0" max="50" required>
-        </p>
-        <p>
-            <label for="total_carbohydrates">Total Carbohydrates</label>
-            <input type="number" id="total_carbohydrates" name="total_carbohydrates" min="0" max="50" required>
-        </p>
-        <button>Submit</button>
-    </form>
+    {% if logged_in %}
+        <form id="food-form">
+            <p>
+                <label for="food-name">Food Name</label>
+                <input type="text" id="food-name" name="food-name" minlength="3" maxlength="20" required>
+            </p>
+            <p>
+                <label for="brand">Brand</label>
+                <input type="text" id="brand" name="brand" minlength="3" maxlength="20" required>
+            </p>
+            <p>
+                <label for="calories">Calories</label>
+                <input type="number" id="calories" name="calories" min="0" max="3500" required>
+            </p>
+            <p>
+                <label for="total-fat">Total Fat</label>
+                <input type="number" id="total-fat" name="total-fat" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="protein">Protein</label>
+                <input type="number" id="protein" name="protein" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="sugars">Sugars</label>
+                <input type="number" id="sugars" name="sugars" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="sodium">Sodium</label>
+                <input type="number" id="sodium" name="sodium" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="cholesterol">Cholesterol</label>
+                <input type="number" id="cholesterol" name="cholesterol" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="potassium">Potassium</label>
+                <input type="number" id="potassium" name="potassium" min="0" max="50" required>
+            </p>
+            <p>
+                <label for="total_carbohydrates">Total Carbohydrates</label>
+                <input type="number" id="total_carbohydrates" name="total_carbohydrates" min="0" max="50" required>
+            </p>
+            <button>Submit</button>
+        </form>
+
+        <h2>Your Logged Foods</h2>
+        <table id="food-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Brand</th>
+                    <th>Calories</th>
+                    <th>Fat</th>
+                    <th>Protein</th>
+                    <th>Carbs</th>
+                    <th>Sugars</th>
+                    <th>Sodium</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        {% else %}
+            <h2>Not logged in</h2>
+            <p>Please <a href="/login">login</a> to track your food.</p>
+        {% endif %}
 </main>
 {% endblock %}
