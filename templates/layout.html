@@ -8,9 +8,25 @@
         {% block headscript %}{% endblock %}
     </head>
     <body>
-        <a href="{{ url_for('signup_page') }}">Sign Up</a>
-        <a href="{{ url_for('login_page') }}">Login</a>
-        <a href="{{ url_for('logout') }}">Logout</a>
-        {% block content %}{% endblock %}
+        <div class="page-wrapper">
+
+            <div class="nav-container">
+                <nav class="app-nav">
+                    <img src="{{url_for('static', filename='assets/NutriLogo.png')}}" 
+                        alt="NutriLogo" 
+                        class="nutri-logo">
+                    <span class="logo-text">NutriLog</span>
+
+                    <a href="{{ url_for('signup_page') }}">Sign Up</a>
+                    <a href="{{ url_for('login_page') }}">Login</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                </nav>
+            </div>
+
+            <div class="main-container">
+                {% block content %}{% endblock %}
+            </div>
+
+        </div>
     </body>
 </html>

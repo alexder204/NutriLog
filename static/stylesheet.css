@@ -44,7 +44,6 @@ hr {
 
 body {
     background-color: #f7f3ee;
-    margin: 0;
     font-family: Poppins, serif;
     color: #777;
 }
@@ -71,11 +70,48 @@ tr:hover {
     background-color: #faf6f2;
 }
 
-main {
+.main-container {
     max-width: 900px;
     margin: 60px auto;
     padding: 30px;
     background-color: #ffffff;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-top: 20px;
+}
+
+.nutri-logo {
+    width: 75px;
+    height: 75px;
+    object-fit: contain;
+    display: block;
+}
+
+.page-wrapper {
+    max-width: 900px;
+    margin: 40px auto;
+    position: relative;
+}
+
+.nav-container {
+    max-width: 900px;
+    margin: 40px auto 20px auto;
+    padding: 15px 25px;
+    background-color: #9898989f;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.05);
+
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    height: 80px;
+    display: flex;
+    align-items: center;
+}
+
+.app-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
 }
